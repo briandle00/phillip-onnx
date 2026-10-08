@@ -40,8 +40,19 @@ outputs to within about 1e-3).
 
     certutil -hashfile gm.step.onnx SHA256
 
+## Running them on a graphics card
+
+[NOTES.md](NOTES.md) has what was learned running these on Windows: which
+variant to load (`.step.pre.onnx` and `.lstm.onnx` are the same networks
+rearranged for a card, several times faster there), the onnxruntime settings
+that matter (TF32 off), and pinned package lists that need no system CUDA
+(`requirements-cuda.txt`, `requirements-directml.txt`).
+
+`tools/` has the scripts that make the two card variants from a plain export,
+and the small loader they share.
+
 ## Terms
 
 The weights are Vlad Firoiu's, from slippi-ai, and are shared here with his
-permission. slippi-ai's code is MIT-licensed; this repository adds no code.
-If you use them, credit slippi-ai.
+permission. slippi-ai's code is MIT-licensed. The scripts in `tools/` are
+MIT-licensed too. If you use any of it, credit slippi-ai.
