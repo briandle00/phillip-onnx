@@ -60,6 +60,17 @@ Only the graphics driver has to be on the PC already.
 - `onnx_models.py` is the small loader both use: session options, the
   provider choice, `PreEmbed`, state handling.
 
-They need `numpy`, `onnx` and `onnxruntime`. They work on the exports in this
-repository's release; the exporter that makes those from slippi-ai's
+- `onnx_f16.py SRC.onnx DST.onnx [--variant-of EXPORT.onnx] [--drift]` stores a
+  float32 file's weights as float16 (each read by one Cast back to float32;
+  nothing else in the graph changes). `--drift` holds the result to the
+  original on a fixed input; v2's files were made with it.
+
+They need `numpy`, `onnx` and `onnxruntime`. `onnx_preembed.py` and
+`onnx_lstm.py` read float32 exports (v1's): v2's card variants are in the
+release already. To make one yourself from v2's weights, convert v1's export
+with `onnx_f16.py --rounded R.onnx` (the same rounded weights, stored as
+float32), run the variant script on `R.onnx`, then `onnx_f16.py --exact
+--variant-of <v2 export>` on its output: the variant then gives the same bits
+as the v2 export. The exporter that makes the exports from slippi-ai's
 checkpoints is not here yet.
+
